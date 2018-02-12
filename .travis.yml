@@ -2,6 +2,3 @@ language: java
 
 jdk:
   - oraclejdk8
-
-script:
-  - mvn -f ./pom.xml clean verify
