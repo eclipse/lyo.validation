@@ -43,74 +43,74 @@ public class ValidationExample {
     /**
      * Loads an example SHACL file and validates all focus nodes against all shapes.
      */
-	public static void validateModelAgainstShaclModel() throws IllegalAccessException, InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException {
-		
-		// Load the main data model
-		Model dataModel = ModelFactory.createDefaultModel();
-		dataModel.read(ValidationExample.class.getResourceAsStream("/aResource-Data.ttl"), "urn:dummy", FileUtils.langTurtle);
+    public static void validateModelAgainstShaclModel() throws IllegalAccessException, InvocationTargetException,
+            DatatypeConfigurationException, OslcCoreApplicationException {
 
-		// Load the SHACL shape model
-		Model shapeModel = ModelFactory.createDefaultModel();
-		shapeModel.read(ValidationExample.class.getResourceAsStream("/aResource-Shape.ttl"), "urn:dummy", FileUtils.langTurtle);
+        // Load the main data model
+        Model dataModel = ModelFactory.createDefaultModel();
+        dataModel.read(ValidationExample.class.getResourceAsStream("/aResource-Data.ttl"), "urn:dummy",
+                FileUtils.langTurtle);
 
-		Validator validator = new ValidatorImpl();
-        //Validate the data model against the SHACL shapes model. You can have shape and data in same model.
-		ValidationResultModel validationResult = validator.validate(dataModel, shapeModel);
+        // Load the SHACL shape model
+        Model shapeModel = ModelFactory.createDefaultModel();
+        shapeModel.read(ValidationExample.class.getResourceAsStream("/aResource-Shape.ttl"), "urn:dummy",
+                FileUtils.langTurtle);
+
+        Validator validator = new ValidatorImpl();
+        // Validate the data model against the SHACL shapes model. You can have shape
+        // and data in same model.
+        ValidationResultModel validationResult = validator.validate(dataModel, shapeModel);
         for (ResourceModel rm : validationResult.getInvalidResources()) {
-            if (!rm.getResult().isValid()) {
-                System.out.println(rm.getResult().show());
-            } else {
-                System.out.println("Resource is Valid");
-            }
+            System.out.println(rm.getResult().show());
         }
-	}
-	
-    /**
-     * Creates an OSLC resource, and validates it against its class annotations defining its SHACL Shape.
-     */
-	public static void validateOslcResourceWithShaclAnnotations() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException {
-
-		//Create an OSLC resource
-		AResource aResource = new AResource();
-		aResource.setAnIntegerProperty(new BigInteger("101"));
-		aResource.setAStringProperty("ABC");
-		
-        //Validate the OSLC resource against the SHACL Shape annotations - as defined in the class @shacl annotations.
-		Validator validator = new ValidatorImpl();
-		ValidationResultModel validationResult = validator.validate(aResource);
-        for (ResourceModel rm : validationResult.getInvalidResources()) {
-            if (!rm.getResult().isValid()) {
-                System.out.println(rm.getResult().show());
-            } else {
-                System.out.println("Resource is Valid");
-            }
-        }
-	}
+    }
 
     /**
-     * Creates an OSLC resource, and validates it against its class annotations defining its OSLC Shape.
+     * Creates an OSLC resource, and validates it against its class annotations
+     * defining its SHACL Shape.
      */
-	public static void validateOslcResourceWithOslcAnnotations() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException {
+    public static void validateOslcResourceWithShaclAnnotations()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException {
 
-		//Create an OSLC resource
-		AnOslcResource anOslcResource = new AnOslcResource();
-		anOslcResource.setAnIntegerProperty(new BigInteger("101"));
-		
-        //Validate the OSLC resource against the OSLC Shape annotations - as defined in the class @oslc annotations.
-		Validator validator = new ValidatorImpl();
-		ValidationResultModel validationResult = validator.validate(anOslcResource);
+        // Create an OSLC resource
+        AResource aResource = new AResource();
+        aResource.setAnIntegerProperty(new BigInteger("101"));
+        aResource.setAStringProperty("ABC");
+
+        // Validate the OSLC resource against the SHACL Shape annotations - as defined
+        // in the class @shacl annotations.
+        Validator validator = new ValidatorImpl();
+        ValidationResultModel validationResult = validator.validate(aResource);
         for (ResourceModel rm : validationResult.getInvalidResources()) {
-            if (!rm.getResult().isValid()) {
-                System.out.println(rm.getResult().show());
-            } else {
-                System.out.println("Resource is Valid");
-            }
+            System.out.println(rm.getResult().show());
         }
-	}
+    }
+
+    /**
+     * Creates an OSLC resource, and validates it against its class annotations
+     * defining its OSLC Shape.
+     */
+    public static void validateOslcResourceWithOslcAnnotations()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException {
+
+        // Create an OSLC resource
+        AnOslcResource anOslcResource = new AnOslcResource();
+        anOslcResource.setAnIntegerProperty(new BigInteger("101"));
+
+        // Validate the OSLC resource against the OSLC Shape annotations - as defined in
+        // the class @oslc annotations.
+        Validator validator = new ValidatorImpl();
+        ValidationResultModel validationResult = validator.validate(anOslcResource);
+        for (ResourceModel rm : validationResult.getInvalidResources()) {
+            System.out.println(rm.getResult().show());
+        }
+    }
 
     public static void main(String[] args) throws Exception {
-    	validateModelAgainstShaclModel();
-    	validateOslcResourceWithShaclAnnotations();
-    	validateOslcResourceWithOslcAnnotations();
+        validateModelAgainstShaclModel();
+        validateOslcResourceWithShaclAnnotations();
+        validateOslcResourceWithOslcAnnotations();
     }
 }
