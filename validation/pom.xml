@@ -14,7 +14,7 @@
 		<version.jetty>9.4.0.v20161208</version.jetty>
 		<version.lyo>${project.version}</version.lyo>
 		<version.shaclex>0.0.87</version.shaclex>
-		<jena.version>3.13.0</jena.version>
+		<jena.version>4.2.0</jena.version>
 	</properties>
 
 	<dependencies>
